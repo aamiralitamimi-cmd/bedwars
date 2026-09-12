@@ -10,6 +10,11 @@ base {
     archivesName = project.archives_base_name
 }
 
+repositories {
+    // Loom provides the essential Minecraft/Fabric repositories.
+    // Add repositories here only for additional third-party dependencies.
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings loom.officialMojangMappings()
