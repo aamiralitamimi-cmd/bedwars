@@ -28,11 +28,24 @@ jobs:
           java -version
           gradle --version
 
+      - name: Verify Maven endpoints
+        run: |
+          curl -fsSI https://maven.fabricmc.net/ | head
+          curl -fsSI https://repo.maven.apache.org/maven2/ | head
+
       - name: Build mod
-        run: gradle build --no-daemon --refresh-dependencies --stacktrace
+        run: gradle build --no-daemon --refresh-dependencies --stacktrace --info
+
+      - name: List build outputs
+        if: always()
+        run: |
+          echo "Build directory:"
+          find build -maxdepth 3 -type f -print 2>/dev/null || true
 
       - name: Upload JAR
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: villa-contest-jar
           path: build/libs/villa-contest-1.0.0.jar
+          if-no-files-found: error
